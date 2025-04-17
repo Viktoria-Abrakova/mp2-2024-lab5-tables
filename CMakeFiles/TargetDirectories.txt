@@ -1,0 +1,5 @@
+C:/Users/Виктория/Desktop/mp2-2024-lab5-tables/CMakeFiles/ALL_BUILD.dir
+C:/Users/Виктория/Desktop/mp2-2024-lab5-tables/CMakeFiles/ZERO_CHECK.dir
+C:/Users/Виктория/Desktop/mp2-2024-lab5-tables/samples/CMakeFiles/tables.dir
+C:/Users/Виктория/Desktop/mp2-2024-lab5-tables/test/CMakeFiles/tables_test.dir
+C:/Users/Виктория/Desktop/mp2-2024-lab5-tables/gtest/CMakeFiles/gtest.dir
