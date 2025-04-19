@@ -17,10 +17,10 @@
     <ClCompile Include="..\src\arrayTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\binaryTreeTable.cpp">
+    <ClCompile Include="..\src\hashTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\hashTable.cpp">
+    <ClCompile Include="..\src\binaryTreeTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

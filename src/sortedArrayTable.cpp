@@ -17,21 +17,19 @@ size_t SortedArrayTable::findInsertPos(const std::string& key) const {
 
 void SortedArrayTable::insert(const std::string& key, const Polynomial& value) {
     size_t pos = findInsertPos(key);
-    data.push_back({ "", Polynomial() }); // Временный элемент
+    data.push_back({ "", Polynomial() }); 
     for (size_t i = data.size() - 1; i > pos; --i) {
         data[i] = data[i - 1];
     }
-    data[pos] = { key, value };
+    data[pos] = { key, value.createDeepCopy() };
     opCount += pos;
 }
 
 Polynomial* SortedArrayTable::find(const std::string& key) {
     size_t pos = findInsertPos(key);
     if (pos < data.size() && data[pos].first == key) {
-        opCount += pos;
         return &data[pos].second;
     }
-    opCount += pos;
     return nullptr;
 }
 

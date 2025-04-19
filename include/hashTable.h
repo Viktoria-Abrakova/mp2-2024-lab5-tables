@@ -6,8 +6,10 @@
 struct HashNode {
     std::string key;
     Polynomial value;
-    HashNode* next = nullptr;
-    HashNode(std::string k, Polynomial v) : key(std::move(k)), value(std::move(v)) {}
+    HashNode* next;
+
+    HashNode(const std::string& k, const Polynomial& v)
+        : key(k), value(v), next(nullptr) {}
 };
 
 class HashTable : public Table {
@@ -18,6 +20,7 @@ private:
     size_t opCount = 0;
 
     size_t hash(const std::string& key) const;
+    void rehash();
 
 public:
     HashTable();
@@ -27,7 +30,6 @@ public:
     void remove(const std::string& key) override;
     size_t size() const;
     float getLoadFactor() const;
-    void rehash();
     size_t getMaxBucketSize() const;
     void clear();
     void printStats() const override;

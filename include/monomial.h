@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 struct Monomial {
 
@@ -14,6 +15,23 @@ struct Monomial {
         }
     }
 
+    std::string toString() const {
+        std::string result;
+        if (coefficient == 0) return "0";
+
+        result = std::to_string(coefficient);
+
+        int x = degree / 100;
+        int y = (degree / 10) % 10;
+        int z = degree % 10;
+
+        if (x > 0) result += "x^" + std::to_string(x);
+        if (y > 0) result += "y^" + std::to_string(y);
+        if (z > 0) result += "z^" + std::to_string(z);
+
+        return result;
+    }
+
 };
 
 struct List {
@@ -21,5 +39,7 @@ struct List {
     List* next;
     List() :next(nullptr) {}
     List(Monomial monom) : next(nullptr), monom(monom) {}
-
+    List(double coeff, int deg, List* nxt = nullptr)
+        : monom(coeff, deg / 100, (deg / 10) % 10, deg % 10), next(nxt) {
+    }
 };

@@ -172,6 +172,7 @@ TEST(HashTableTest, MultipleInsert) {
         EXPECT_NE(table.find(key), nullptr) << "Failed for key: " << key;
     }
 }
+
 TEST(HashTableTest, InsertRemoveSequence) {
     HashTable table;
     Polynomial p1, p2;

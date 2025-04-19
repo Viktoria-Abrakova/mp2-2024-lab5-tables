@@ -2,29 +2,43 @@
 #include "table.h"
 #include <string>
 
+
 struct TreeNode {
     std::string key;
     Polynomial value;
-    TreeNode* left = nullptr;
-    TreeNode* right = nullptr;
-    TreeNode(std::string k, Polynomial v) : key(std::move(k)), value(std::move(v)) {}
+    TreeNode* left;
+    TreeNode* right;
+    int height;
+
+    TreeNode(const std::string& k, const Polynomial& v)
+        : key(k), value(v), left(nullptr), right(nullptr), height(1) {
+    }
 };
 
 class BinaryTreeTable : public Table {
 private:
-    TreeNode* root = nullptr;
-    size_t opCount = 0;
 
+    TreeNode* root;
+    mutable int opCount;
+
+    int height(TreeNode* node) const;
+    void updateHeight(TreeNode* node);
+    int balanceFactor(TreeNode* node) const;
+    TreeNode* rotateRight(TreeNode* y);
+    TreeNode* rotateLeft(TreeNode* x);
+    TreeNode* balance(TreeNode* node);
     TreeNode* insert(TreeNode* node, const std::string& key, const Polynomial& value);
-    TreeNode* find(TreeNode* node, const std::string& key);
     TreeNode* remove(TreeNode* node, const std::string& key);
+    TreeNode* findNode(TreeNode* node, const std::string& key) const;
     TreeNode* minValueNode(TreeNode* node);
     void clear(TreeNode* node);
 
 public:
-    ~BinaryTreeTable() override;
+    BinaryTreeTable();
+    ~BinaryTreeTable();
+
     void insert(const std::string& key, const Polynomial& value) override;
-    Polynomial* find(const std::string& key) override;
     void remove(const std::string& key) override;
+    Polynomial* find(const std::string& key) override;
     void printStats() const override;
 };

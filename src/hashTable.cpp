@@ -36,7 +36,7 @@ void HashTable::insert(const std::string& key, const Polynomial& value) {
     HashNode* node = table[index];
     while (node != nullptr) {
         if (node->key == key) {
-            node->value = value; 
+            node->value = value;
             return;
         }
         node = node->next;
@@ -69,15 +69,15 @@ void HashTable::remove(const std::string& key) {
     while (current != nullptr) {
         if (current->key == key) {
             if (prev == nullptr) {
-                table[index] = current->next; 
+                table[index] = current->next;
             }
             else {
-                prev->next = current->next;   
+                prev->next = current->next;
             }
 
             delete current;
             size_--;
-            return;  
+            return;
         }
 
         prev = current;
@@ -143,12 +143,12 @@ void HashTable::clear() {
         while (node != nullptr) {
             HashNode* temp = node;
             node = node->next;
-            delete temp;  
+            delete temp;
         }
-        table[i] = nullptr;  
+        table[i] = nullptr;
     }
-    size_ = 0;    
-    opCount = 0;     
+    size_ = 0;
+    opCount = 0;
 }
 
 void HashTable::printStats() const {

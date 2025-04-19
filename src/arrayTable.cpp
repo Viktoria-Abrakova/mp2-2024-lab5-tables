@@ -8,11 +8,11 @@ void ArrayTable::insert(const std::string& key, const Polynomial& value) {
             return;
         }
     }
-    data.push_back({ key, value });
+    data.push_back({ key, value.createDeepCopy() });
 }
 
 Polynomial* ArrayTable::find(const std::string& key) {
-    for (size_t i = 0; i < data.size(); ++i) {
+   for (size_t i = 0; i < data.size(); ++i) {
         opCount++;
         if (data[i].first == key) {
             return &data[i].second;

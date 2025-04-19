@@ -1,57 +1,66 @@
 #include "polynomial.h"
 
-Polynomial::Polynomial() {
-    head_ = nullptr;
+void Polynomial::clear() {
+    while (head_) {
+        List* temp = head_;
+        head_ = head_->next;
+        delete temp;
+    }
 }
+
+void Polynomial::copyFrom(const Polynomial& other) {
+    List** current = &head_;
+    List* src = other.head_;
+
+    while (src) {
+        *current = new List(src->monom.coefficient, src->monom.degree);
+        current = &((*current)->next);
+        src = src->next;
+    }
+}
+
+Polynomial::Polynomial() : head_(nullptr) {}
 
 Polynomial::~Polynomial() {
-    List* p1 = head_;
-    while (p1) {
-        List* p2 = p1->next; 
-        delete p1;           
-        p1 = p2;            
-    }
+    clear();
 }
 
-Polynomial::Polynomial(const Polynomial& other) {
-    head_ = nullptr; 
-    List* current = other.head_; 
-    while (current) {
-        insert(current->monom.coefficient, current->monom.degree); 
-        current = current->next; 
-    }
+Polynomial::Polynomial(const Polynomial& other) : head_(nullptr) {
+    copyFrom(other);
+}
+
+Polynomial Polynomial:: clone() const {
+    return *this; 
 }
 
 void Polynomial::insert(double coeff, int degree) {
-    List* newMonomial = new List(Monomial(coeff, degree / 100, (degree / 10) % 10, degree % 10)); 
     if (degree < 0 || degree > 999) {
-        throw std::out_of_range("The monom.degree must be in the range from 0 to 9.");
-    }
-    if (!head_ || (degree > head_->monom.degree)) {
-        newMonomial->next = head_;
-        head_ = newMonomial;
-        return;
+        throw std::out_of_range("Degree must be 0-999");
     }
 
-    List* current = head_;
-    while (current->next && (current->next->monom.degree > degree)) {
-        current = current->next;
+    List* new_List = new List(coeff, degree);
+
+    if (!head_ || degree > head_->monom.degree) {
+        new_List->next = head_;
+        head_ = new_List;
     }
-    newMonomial->next = current->next;
-    current->next = newMonomial;
+    else {
+        List* current = head_;
+        while (current->next && current->next->monom.degree > degree) {
+            current = current->next;
+        }
+        new_List->next = current->next;
+        current->next = new_List;
+    }
 }
 
+
 Polynomial& Polynomial::operator=(const Polynomial& other) {
-    if (this != &other) { 
-        this->~Polynomial(); 
-        head_ = nullptr; 
-        List* current = other.head_;
-        while (current) {
-            insert(current->monom.coefficient, current->monom.degree); 
-            current = current->next; 
-        }
+    if (this != &other) {
+        clear();
+        copyFrom(other);
     }
-    return *this; 
+    return *this;
 }
 
 Polynomial Polynomial::operator+(const Polynomial& other) {
@@ -165,6 +174,20 @@ Polynomial Polynomial::operator*(const Polynomial& other) {
     return result;
 }
 
+bool Polynomial::operator==(const Polynomial& other) const {
+    List* curr1 = head_;
+    List* curr2 = other.head_;
+    while (curr1 && curr2) {
+        if (curr1->monom.coefficient != curr2->monom.coefficient ||
+            curr1->monom.degree != curr2->monom.degree) {
+            return false;
+        }
+        curr1 = curr1->next;
+        curr2 = curr2->next;
+    }
+    return curr1 == nullptr && curr2 == nullptr;
+}
+
 Polynomial Polynomial::combineLikeMonomials() {
     Polynomial result;
     List* current = head_;
@@ -202,6 +225,23 @@ void Polynomial::inputPolynomial() {
     }
 }
 
+std::string Polynomial::toString() const {
+    std::string result;
+    List* current = head_;
+    bool first = true;
+
+    while (current) {
+        if (!first && current->monom.coefficient > 0) {
+            result += " + ";
+        }
+        result += current->monom.toString();
+        first = false;
+        current = current->next;
+    }
+
+    return result.empty() ? "0" : result;
+}
+
 void Polynomial::print() const {
     if (head_ == nullptr) {
         std::cout << "0";
@@ -214,13 +254,15 @@ void Polynomial::print() const {
             current = current->next;
             continue;
         }
-        if (!first && current->monom.coefficient > 0) {
-            std::cout << " + ";
+        if (!first) {
+            std::cout << (current->monom.coefficient > 0 ? " + " : " - ");
         }
-        if (current->monom.coefficient < 0) {
-            std::cout << " - ";
+        else if (current->monom.coefficient < 0) {
+            std::cout << "-";
         }
-        std::cout << std::abs(current->monom.coefficient);
+        if (std::abs(current->monom.coefficient) != 1 || current->monom.degree == 0) {
+            std::cout << std::abs(current->monom.coefficient);
+        }
         int x = current->monom.degree / 100;
         int y = (current->monom.degree / 10) % 10;
         int z = current->monom.degree % 10;
@@ -241,4 +283,22 @@ void Polynomial::print() const {
 
 List* Polynomial::getHead_() const {
     return head_;
+}
+
+Polynomial Polynomial::createDeepCopy() const {
+    Polynomial result;
+    List* current = head_;
+    List** tail = &result.head_;
+
+    while (current) {
+        *tail = new List(current->monom);
+        tail = &((*tail)->next);
+        current = current->next;
+    }
+
+    return result;
+}
+
+bool Polynomial::isSameInstance(const Polynomial& other) const {
+    return this == &other;
 }
