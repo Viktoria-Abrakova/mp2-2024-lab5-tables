@@ -209,6 +209,8 @@ Polynomial Polynomial::combineLikeMonomials() {
 }
 
 void Polynomial::inputPolynomial() {
+    clear();
+
     int degree;
     double coefficient;
 
