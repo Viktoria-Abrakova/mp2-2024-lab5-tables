@@ -7,7 +7,7 @@ private:
     myVector<std::pair<std::string, Polynomial>> data;
     size_t opCount = 0;
 
-    size_t findInsertPos(const std::string& key) const;
+    size_t findInsertPos(const std::string& key, size_t& localOpCount) const;
 
 public:
     void insert(const std::string& key, const Polynomial& value) override;

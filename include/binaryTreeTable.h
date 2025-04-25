@@ -21,16 +21,16 @@ private:
     TreeNode* root;
     mutable int opCount;
 
-    int height(TreeNode* node) const;
-    void updateHeight(TreeNode* node);
-    int balanceFactor(TreeNode* node) const;
-    TreeNode* rotateRight(TreeNode* y);
-    TreeNode* rotateLeft(TreeNode* x);
-    TreeNode* balance(TreeNode* node);
-    TreeNode* insert(TreeNode* node, const std::string& key, const Polynomial& value);
-    TreeNode* remove(TreeNode* node, const std::string& key);
-    TreeNode* findNode(TreeNode* node, const std::string& key) const;
-    TreeNode* minValueNode(TreeNode* node);
+    int height(TreeNode* node, size_t& localOpCount) const;
+    void updateHeight(TreeNode* node, size_t& localOpCount);
+    int balanceFactor(TreeNode* node, size_t& localOpCount) const;
+    TreeNode* rotateRight(TreeNode* y, size_t& localOpCount);
+    TreeNode* rotateLeft(TreeNode* x, size_t& localOpCount);
+    TreeNode* balance(TreeNode* node, size_t& localOpCount);
+    TreeNode* insert(TreeNode* node, const std::string& key, const Polynomial& value, size_t& localOpCount);
+    TreeNode* remove(TreeNode* node, const std::string& key, size_t& localOpCount);
+    TreeNode* findNode(TreeNode* node, const std::string& key, size_t& localOpCount) const;
+    TreeNode* minValueNode(TreeNode* node, size_t& localOpCount);
     void clear(TreeNode* node);
 
 public:

@@ -245,41 +245,55 @@ std::string Polynomial::toString() const {
 }
 
 void Polynomial::print() const {
-    if (head_ == nullptr) {
-        std::cout << "0";
+    if (this == nullptr) {
+        std::cout << "" << std::endl;
         return;
     }
+
+    if (head_ == nullptr) {
+        std::cout << "0" << std::endl;
+        return;
+    }
+
     List* current = head_;
     bool first = true;
+    bool hasTerms = false;
+
     while (current != nullptr) {
         if (current->monom.coefficient == 0) {
             current = current->next;
             continue;
         }
+
+        hasTerms = true;
+
         if (!first) {
             std::cout << (current->monom.coefficient > 0 ? " + " : " - ");
         }
         else if (current->monom.coefficient < 0) {
             std::cout << "-";
         }
+
         if (std::abs(current->monom.coefficient) != 1 || current->monom.degree == 0) {
             std::cout << std::abs(current->monom.coefficient);
         }
+
         int x = current->monom.degree / 100;
         int y = (current->monom.degree / 10) % 10;
         int z = current->monom.degree % 10;
-        if (x != 0) {
-            std::cout << "x^" << x;
-        }
-        if (y != 0) {
-            std::cout << "y^" << y;
-        }
-        if (z != 0) {
-            std::cout << "z^" << z;
-        }
+
+        if (x != 0) std::cout << "x^" << x;
+        if (y != 0) std::cout << "y^" << y;
+        if (z != 0) std::cout << "z^" << z;
+
         first = false;
         current = current->next;
     }
+
+    if (!hasTerms) {
+        std::cout << "0";
+    }
+
     std::cout << std::endl;
 }
 

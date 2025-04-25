@@ -19,8 +19,8 @@ private:
     size_t size_ = 0;
     size_t opCount = 0;
 
-    size_t hash(const std::string& key) const;
-    void rehash();
+    size_t hash(const std::string& key, size_t& localOpCount) const;
+    void rehash(size_t& localOpCount);
 
 public:
     HashTable();
